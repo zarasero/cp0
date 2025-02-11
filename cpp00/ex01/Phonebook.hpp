@@ -5,6 +5,7 @@
 #include <string>
 #include "Contact.hpp"
 #include <cstdlib>
+#include <iomanip> // Для setw
 
 class Phonebook
 {
@@ -13,10 +14,12 @@ class Phonebook
         Phonebook();
         ~Phonebook();
          void createContact(int i);
-         void printContact(int i);
+         int printSingleContact(int i);
          int trouveContact(std::string i);
+         int printContact(int count);
+         void err();
     private:
-        Contact contact[8];
+        Contact contact[9];
 
 };
 

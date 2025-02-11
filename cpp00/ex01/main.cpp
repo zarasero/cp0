@@ -7,43 +7,49 @@ int main() {
     Phonebook phonebook;
     std::string command;
     int index;
-    int a = 1;
+    int count = 0;
 
-    std::cout << "PHONEBOOK" << std::endl;
-    std::cout << "Choose one command" << std::endl;
+
     while (1)  
     {
-        std::cout << "Enter command (ADD, SEARCH, EXIT): "<< std::endl;
-        std::cin >> command;
+        std::cout << std::endl<< std::endl;
+        std::cout << "Choose one command (ADD, SEARCH, EXIT): " << std::endl;
+        std::getline(std::cin, command);
 
         if (command == "ADD")
         {
+            std::system("clear");
             static int i = 0;  // Используем static, чтобы переменная сохраняла значение
-            phonebook.createContact(i);  // Вызываем метод у объекта, а не через `Phonebook::`
+            phonebook.createContact(i + 1);  // Вызываем метод у объекта, а не через `Phonebook::`
             i = (i + 1) % 8;  // Заполняем массив по кругу
-            a = 0;
+            if (count < 8)  // Ограничиваем максимумом
+                count++;
         }
         else if (command == "EXIT")
+        {
+            std::system("clear");
             break;
+        }
         else if (command == "SEARCH")
         {
-            if (a)
-            {
-                std::cout << "0 CONTACT "<< std::endl;
+            std::system("clear");
+           if (phonebook.printContact(count))
                 continue;
-            }
-            std::cout << "CHOOSE CONTACT "<< std::endl;
-            std::cin >> command;
+            std::cout << "CHOOSE CONTACT INDEX: "<< std::endl;
+            std::getline(std::cin, command);
             index = phonebook.trouveContact(command);
-            if (index == -1)
+            if (index == -1 || index > count)
             {
-                std::cout << "ERROR "<< std::endl;
+                std::cout << "ERROR: Invalid index." << std::endl << std::endl << std::endl;
                 continue;
             }
-            phonebook.printContact(index);
+            phonebook.printSingleContact(index);
+        }
+        else
+        {
+            phonebook.err();
         }
     }
-
 
     return 0;
 }

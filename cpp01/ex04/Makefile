@@ -1,5 +1,5 @@
 # Имя исполняемого файла
-NAME = Brain
+NAME = Replace
 
 # Список исходных файлов, здесь у нас только один файл megaphone.cpp
 SRC = main.cpp

@@ -5,8 +5,8 @@ HumanB::HumanB(const std::string& name) {
     this->weapon = NULL;  // Изначально у Джима нет оружия
 }
 
-void HumanB::setWeapon(Weapon* weapon) {
-    this->weapon = weapon;  // Теперь weapon будет указывать на переданный объект
+void HumanB::setWeapon(Weapon& weapon) {
+    this->weapon = &weapon;  // Теперь weapon будет указывать на переданный объект
 }
 
 HumanB::~HumanB() {}

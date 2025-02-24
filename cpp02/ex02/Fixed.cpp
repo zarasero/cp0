@@ -2,23 +2,23 @@
 
 // Конструктор по умолчанию
 Fixed::Fixed() : value(0) {
-    std::cout << "Default constructor called" << std::endl;
+    //std::cout << "Default constructor called" << std::endl;
 }
 
 // Деструктор
 Fixed::~Fixed() {
-    std::cout << "Destructor called" << std::endl;
+    //std::cout << "Destructor called" << std::endl;
 }
 
 // Конструктор копирования
 Fixed::Fixed(const Fixed &other) {
-    std::cout << "Copy constructor called" << std::endl;
+    //std::cout << "Copy constructor called" << std::endl;
     *this = other; // Используем оператор присваивания
 }
 
 // Оператор присваивания
 Fixed &Fixed::operator=(const Fixed &other) {
-    std::cout << "Copy assignment operator called" << std::endl;
+    //std::cout << "Copy assignment operator called" << std::endl;
     if (this != &other) { // Проверяем, не присваиваем ли мы объект сам себе
         this->value = other.value; // Копируем значение
     }
@@ -26,24 +26,24 @@ Fixed &Fixed::operator=(const Fixed &other) {
 }
 
 // Геттер (получение значения)
-int Fixed::getRawBits(void) const {
+int Fixed::getValue(void) const {
     //std::cout << "getRawBits member function called" << std::endl;
     return this->value;
 }
 
 // Сеттер (установка значения)
-void Fixed::setRawBits(int const raw) {
+void Fixed::setValue(int const raw) {
     //std::cout << "setRawBits member function called" << std::endl;
     this->value = raw;
 }
 
 Fixed::Fixed(const int value) {
-    std::cout << "Int constructor called" << std::endl;
+    //std::cout << "Int constructor called" << std::endl;
     this->value = value << Fixed::fractionalBits;
 }
 
 Fixed::Fixed(const float value) {
-    std::cout << "Float constructor called" << std::endl;
+    //std::cout << "Float constructor called" << std::endl;
     this->value = roundf(value * (1 << Fixed::fractionalBits));
 }
 
@@ -61,27 +61,27 @@ std::ostream& operator<<(std::ostream &out, const Fixed &obj)
     return out;
 }
 
-bool operator>(const Fixed& obj) const {
+bool Fixed::operator>(const Fixed& obj) const {
     return this->value > obj.value;
 }
 
-bool operator>=(const Fixed& obj) const {
+bool Fixed::operator>=(const Fixed& obj) const {
     return this->value >= obj.value;
 }
 
-bool operator<(const Fixed& obj) const {
+bool Fixed::operator<(const Fixed& obj) const {
     return this->value < obj.value;
 }
 
-bool operator<=(const Fixed& obj) const {
+bool Fixed::operator<=(const Fixed& obj) const {
     return this->value <= obj.value;
 }
 
-bool operator==(const Fixed& obj) const {
+bool Fixed::operator==(const Fixed& obj) const {
     return this->value == obj.value;
 }
 
-bool operator!=(const Fixed& obj) const {
+bool Fixed::operator!=(const Fixed& obj) const {
     return this->value != obj.value;
 }
 
@@ -105,7 +105,7 @@ Fixed Fixed::operator*(const Fixed &obj) const {
 
 Fixed Fixed::operator/(const Fixed &obj) const {
     Fixed result;
-    result.value = ((this->value << Fixed::fractionalBits) / obj.value);
+    result.value = (this->value << Fixed::fractionalBits) / obj.value;
     return result;
 }
 
@@ -131,6 +131,22 @@ Fixed Fixed::operator--(int) {
     return result;        // Возвращаем копию result (старое значение)
 }
 
+// Статические методы должны быть static
+Fixed& Fixed::min(Fixed &a, Fixed &b) {
+    return (a.getValue() < b.getValue()) ? a : b;
+}
+
+const Fixed& Fixed::min(const Fixed &a, const Fixed &b) {  // Возвращаем const ссылку
+    return (a.getValue() < b.getValue()) ? a : b;
+}
+
+Fixed& Fixed::max(Fixed &a, Fixed &b) {
+    return (a.getValue() > b.getValue()) ? a : b;
+}
+
+const Fixed& Fixed::max(const Fixed &a, const Fixed &b) {  // Возвращаем const ссылку
+    return (a.getValue() > b.getValue()) ? a : b;
+}
 
 
 

@@ -3,6 +3,7 @@ NAME = ClapTrap
 
 SRC = main.cpp \
 	  ClapTrap.cpp \
+	  ScavTrap.cpp \
 
 
 OBJ = $(SRC:.cpp=.o)

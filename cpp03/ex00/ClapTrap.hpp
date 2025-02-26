@@ -1,40 +1,69 @@
+
 #ifndef CLAPTRAP_HPP
 #define CLAPTRAP_HPP
 
+#include <iomanip>
 #include <iostream>
+#include <iomanip>
+class ClapTrap
+{
+    public:
+        // КОНСТРУКТОРЫ И ДЕСТРУКТОР
 
-class ClapTrap {
-public:
-    // Конструкторы
-    ClapTrap();
-    ClapTrap(std::string name);
-    ClapTrap(const ClapTrap &other);
-    ClapTrap &operator=(const ClapTrap &other);
+        ClapTrap(); // Конструктор по умолчанию
+        ClapTrap(std::string name); // Конструктор, инициализирующий объект с заданным именем
+        ClapTrap(const ClapTrap& src); // Конструктор копирования для создания копии объекта ClapTrap
+        ~ClapTrap(); // Деструктор, вызывается при уничтожении объекта
+        ClapTrap& operator=(const ClapTrap& rhs); // Оператор присваивания для копирования данных из одного объекта в другой
 
-    // Деструктор
-    ~ClapTrap();
+        // СЕТТЕРЫ / ГЕТТЕРЫ
 
-    // Основные функции
-    void attack(const std::string& target);
-    void takeDamage(unsigned int amount);
-    void beRepaired(unsigned int amount);
+        int getHP(void) const; // Возвращает текущее количество здоровья (HP) объекта ClapTrap
+        void setHP(int hp); // Устанавливает количество здоровья (HP) объекта ClapTrap
 
-    // Геттеры
-    std::string getName();  // ✅ Добавили getName()
-    int getHitPoints();
-    int getEnergyPoints();
-    int getAttackDamage();
+        int getEP(void) const; // Возвращает текущее количество энергии (EP) объекта ClapTrap
+        void setEP(int ep); // Устанавливает количество энергии (EP) объекта ClapTrap
 
-    // Сеттеры
-    void setHitPoints(int amount);
-    void setEnergyPoints(int amount);
-    void setAttackDamage(int amount);
+        int getAD(void) const; // Возвращает текущее количество урона от атаки (AD) объекта ClapTrap
+        void setAD(int ad); // Устанавливает количество урона от атаки (AD) объекта ClapTrap
 
-private:
-    std::string name;
-    int hitPoints;
-    int energyPoints;
-    int attackDamage;
+        std::string getName(void) const; // Возвращает имя объекта ClapTrap
+        void setName(std::string name); // Устанавливает имя объекта ClapTrap
+
+        // МЕТОДЫ ДЕЙСТВИЙ
+
+        void attack(const std::string& target); // Моделирует атаку на целевого персонажа
+        void takeDamage(unsigned int amount); // Моделирует получение урона
+        void beRepaired(unsigned int amount); // Моделирует восстановление здоровья (ремонт)
+
+    private:
+        std::string _name; // Имя объекта ClapTrap
+        int _hp; // Количество здоровья (HP) объекта ClapTrap
+        int _ep; // Количество энергии (EP) объекта ClapTrap
+        int _ad; // Урон от атаки (AD) объекта ClapTrap
 };
 
-#endif // CLAPTRAP_HPP
+#endif
+/*Конструкторы и деструктор:
+
+Конструктор по умолчанию инициализирует объект значениями по умолчанию.
+Конструктор с именем позволяет установить имя объекта при его создании.
+Конструктор копирования создает новый объект ClapTrap на основе существующего.
+Деструктор используется для выполнения необходимых действий при уничтожении объекта, таких как вывод сообщения или освобождение ресурсов.
+Оператор присваивания позволяет копировать значения одного объекта в другой.
+Сеттеры и геттеры:
+
+Эти методы используются для доступа и изменения значений закрытых переменных класса (_hp, _ep, _ad, _name).
+Геттеры возвращают текущее значение свойства, а сеттеры устанавливают новое значение.
+Методы действий:
+
+attack: Симулирует атаку на заданного цель, уменьшая количество энергии.
+takeDamage: Уменьшает количество здоровья объекта на заданное значение урона.
+beRepaired: Увеличивает количество здоровья объекта на заданное количество.
+Приватные переменные:
+
+_name: Хранит имя объекта ClapTrap.
+_hp: Хранит количество здоровья (HP) объекта.
+_ep: Хранит количество энергии (EP) объекта.
+_ad: Хранит количество урона от атаки (AD) объекта.
+Этот класс моделирует поведение "робота" в игре или симуляции, где у объекта есть здоровье, энергия, урон от атак, и он может атаковать, получать урон и восстанавливаться.*/

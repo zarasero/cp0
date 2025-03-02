@@ -1,150 +1,121 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ClapTrap.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zserobia <zserobia@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/27 13:15:17 by zserobia          #+#    #+#             */
+/*   Updated: 2025/02/27 18:05:24 by zserobia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ClapTrap.hpp"
 
-//      CANONICAL      //
-// Конструктор по умолчанию, инициализирующий атрибуты стандартными значениями
-ClapTrap::ClapTrap() // CONSTRUCTOR
-{
-	std::cout << "ClapTrap constructor called" << std::endl;
-	this->_ad = 0;    // Урон по умолчанию — 0
-	this->_ep = 10;   // Энергия по умолчанию — 10
-	this->_hp = 10;   // Очки здоровья по умолчанию — 10
-	return ;
+// Конструкторы
+ClapTrap::ClapTrap() : name("NoName"), hitPoints(10), energyPoints(10), attackDamage(0) {
+     std::cout << "⚙️ClapTrap HP " << hitPoints << " enp " << energyPoints << " ap " << attackDamage << std::endl;
+     std::cout << "⚙️ClapTrap" << name << " is created!" << std::endl;
 }
 
-// Конструктор с параметром имени, который инициализирует _name и другие атрибуты
-ClapTrap::ClapTrap(std::string name) : _name(name) // OTHER CONSTRUCTOR
-{
-	std::cout << "ClapTrap constructor called" << std::endl;
-	this->_ad = 0;
-	this->_ep = 10;
-	this->_hp = 10;
-	return ;
+// Конструктор с параметром
+ClapTrap::ClapTrap(std::string name) : name(name), hitPoints(10), energyPoints(10), attackDamage(0) {
+     std::cout << "⚙️ClapTrap HP " << hitPoints << " enp " << energyPoints << " ap " << attackDamage << std::endl;
+     std::cout << "⚙️ClapTrap Constructor " << name << " ClapTrap is created" << std::endl;
 }
 
-// Конструктор копирования, копирующий значения атрибутов из другого объекта
-ClapTrap::ClapTrap(const ClapTrap& src) // COPY CONSTRUCTOR
-{
-	*this = src; // Используем оператор присваивания для копирования
-	return ;
+// Конструктор копирования
+ClapTrap::ClapTrap(const ClapTrap &other) {
+    *this = other;  // ⬅ Внутри вызывается оператор присваивания!
+    std::cout << "⚙️ClapTrap Copy constructor called for " << name << std::endl;
 }
 
-// Деструктор, вызываемый при удалении объекта
-ClapTrap::~ClapTrap() // DESTRUCTOR
-{
-	std::cout << "ClapTrap destructor called" << std::endl;
-	return ;
+// Оператор присваивания
+ClapTrap &ClapTrap::operator=(const ClapTrap &other) {
+    std::cout << "⚙️ClapTrap Operator = is called par" << std::endl;
+    if (this != &other) {  // Защита от самоприсваивания
+        this->name = other.name;
+        this->hitPoints = other.hitPoints;
+        this->energyPoints = other.energyPoints;
+        this->attackDamage = other.attackDamage;
+    }
+    return *this;
 }
 
-// Перегрузка оператора присваивания для копирования значений из другого объекта
-ClapTrap& ClapTrap::operator=(const ClapTrap& rhs)
-{
-	if (this != &rhs) // Проверяем самоприсваивание
-	{
-		this->_name = rhs.getName(); // Копируем имя
-		this->_ep = rhs.getEP();     // Копируем очки энергии
-		this->_hp = rhs.getHP();     // Копируем очки здоровья
-		this->_ad = rhs.getAD();     // Копируем урон
-	}
-	return (*this);
+// Виртуальный деструктор!!!
+ClapTrap::~ClapTrap() {
+    std::cout << "⚙️ClapTrap " << name << " is destroyed" << std::endl;
 }
 
-// Функция атаки, которая уменьшает энергию и выводит информацию об атаке
-void ClapTrap::attack(const std::string& target)
-{
-	if (_hp > 0) // Проверяем, жив ли объект
-	{
-		if (_ep > 0) // Проверяем, есть ли энергия для атаки
-		{
-			std::cout << _name << "[" << _ep << "]" << " attacks " 
-                      << target << ", causing " << _ad << " points of damage!" 
-                      << std::endl;
-			setEP(_ep - 1); // Уменьшаем очки энергии на 1
-		}
-		else
-			std::cout << _name << " has " << _ep 
-                      << " energy, and cannot attack." << std::endl;
-	}
-	else
-		std::cout << _name << " can't attack, they are dead." << std::endl;
-	return ;
+// Геттеры
+int ClapTrap::getHitPoints() {
+    return this->hitPoints;
 }
 
-// Функция получения урона, которая уменьшает HP объекта
-void ClapTrap::takeDamage(unsigned int amount)
-{
-	setHP(_hp - amount); // Уменьшаем здоровье на величину урона
-	if (_hp > 0) // Проверяем, жив ли объект после получения урона
-		std::cout << _name << " lost " << amount 
-                  << " HP, now has " << _hp << " HP." << std::endl;
-	else
-		std::cout << _name << " is dead." << std::endl;
-	return ;
+int ClapTrap::getEnergyPoints() {
+    return this->energyPoints;
 }
 
-// Функция восстановления, которая увеличивает здоровье, если есть энергия
-void ClapTrap::beRepaired(unsigned int amount)
-{
-	if (_ep > 0) // Проверяем, есть ли энергия для восстановления
-	{
-		std::cout << _name << "[" << _ep << "]" 
-                  << " repaired " << amount << " HP, now has " 
-                  << _hp + amount << " HP points." << std::endl;
-		setHP(_hp + amount); // Увеличиваем здоровье
-		setEP(_ep - 1);      // Уменьшаем энергию
-	}
-	else
-		std::cout << _name << " has " << _ep 
-                  << " energy, and cannot repair." << std::endl;
+int ClapTrap::getAttackDamage() {
+    return this->attackDamage;
 }
 
-// Геттер для здоровья
-int ClapTrap::getHP(void) const
-{
-	return (this->_hp);
+// Реализация метода getName()
+std::string ClapTrap::getName() {
+    return this->name;
 }
 
-// Сеттер для здоровья
-void ClapTrap::setHP(int hp)
-{
-	this->_hp = hp;
-	return ;
+// Сеттеры
+void ClapTrap::setHitPoints(int amount) {
+    this->hitPoints = amount;
 }
 
-// Геттер для энергии
-int ClapTrap::getEP(void) const
-{
-	return (this->_ep);
+void ClapTrap::setEnergyPoints(int amount) {
+    this->energyPoints = amount;
 }
 
-// Сеттер для энергии
-void ClapTrap::setEP(int ep)
-{
-	this->_ep = ep;
-	return ;
+void ClapTrap::setAttackDamage(int amount) {
+    this->attackDamage = amount;
 }
 
-// Геттер для урона
-int ClapTrap::getAD(void) const
-{
- 	return (this->_ad);
+// Функция атаки
+void ClapTrap::attack(const std::string& target) {
+    if (this->hitPoints > 0) {
+        if (this->energyPoints > 0) {
+            this->setEnergyPoints(this->energyPoints - 1);
+            std::cout << "⚙️ClapTrap " << name << " attacks " << target
+                      << ", causing " << attackDamage << " points of damage!" << std::endl;
+            //std::cout << "Energy points left: " << energyPoints << std::endl;
+            std::cout << "⚙️ClapTrap Energy points left: " << this->getEnergyPoints() << std::endl;
+        } else {
+            std::cout << "⚙️ClapTrap " << name << " has no energy to attack!" << std::endl;
+        }
+    } else {
+        std::cout << "⚙️ClapTrap" << name << " can't attack, it is dead!" << std::endl;
+    }
 }
 
-// Сеттер для урона
-void ClapTrap::setAD(int ad)
-{
-	this->_ad = ad;
-	return ;
+// Функция получения урона
+void ClapTrap::takeDamage(unsigned int amount) {
+    if (this->hitPoints > 0) {
+        this->setHitPoints(this->hitPoints - amount);
+        std::cout << "⚙️ClapTrap " << name << " takes " << amount << " points of damage!" << std::endl;
+        if (this->hitPoints <= 0) {
+            std::cout << "⚙️ClapTrap " << name << " is dead!" << std::endl;
+        }
+    } else {
+        std::cout << "⚙️ClapTrap " << name << " is already dead!" << std::endl;
+    }
 }
 
-// Геттер для имени
-std::string ClapTrap::getName(void) const
-{
-	return (this->_name);
-}
-
-// Сеттер для имени
-void ClapTrap::setName(std::string name)
-{
-	this->_name = name;
+// Функция восстановления
+void ClapTrap::beRepaired(unsigned int amount) {
+    if (energyPoints > 0 && hitPoints > 0) {
+        hitPoints += amount;
+        energyPoints--;
+        std::cout << "⚙️ClapTrap " << name << " repairs itself for " << amount 
+                  << "⚙️ClapTrap HP! Remaining HP: " << hitPoints << ", Energy: " << energyPoints << std::endl;
+    } else {
+        std::cout << "⚙️ClapTrap " << name << " cannot repair due to no energy or being out of health!" << std::endl;
+    }
 }

@@ -1,26 +1,22 @@
-
 #ifndef FRAGTRAP_HPP
 #define FRAGTRAP_HPP
 
 #include "ClapTrap.hpp"
-#include <iostream>
 
-class FragTrap : virtual public ClapTrap
-{
-	// CANONICAL FORM
-	public:
-			FragTrap(); // Constructor
-			FragTrap(std::string name);
-			FragTrap(const FragTrap& src); // Copy constructor
-			FragTrap& operator=(const FragTrap& rhs);
-			
-			virtual ~FragTrap(); // Destructor
-			
-			void	highFivesGuys(void);
+class FragTrap : virtual public ClapTrap {
+public:
+    // Конструкторы
+    FragTrap();  // Конструктор по умолчанию
+    FragTrap(std::string name);  // Конструктор с параметром
+    FragTrap(const FragTrap& src);  // Конструктор копирования
+    virtual ~FragTrap();  // Деструктор
 
+    // Оператор присваивания
+    FragTrap& operator=(const FragTrap& rhs);
+
+
+    // Новый метод
+    void highFiveGuys();
 };
-
-
-
 
 #endif

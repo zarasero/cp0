@@ -1,45 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zserobia <zserobia@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/27 13:15:05 by zserobia          #+#    #+#             */
+/*   Updated: 2025/02/27 18:06:17 by zserobia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "ClapTrap.hpp"
-#include "ScavTrap.hpp"
-#include "FragTrap.hpp"
 #include "DiamondTrap.hpp"
+#include <iostream>
 
-int main(int argc, char **av)
-{
-    // Игнорируем входные аргументы, чтобы избежать предупреждений компилятора
-    (void)argc, (void)av;
+int main() {
+    std::cout << "\n--- Creating DiamondTrap ---\n" << std::endl;
+    DiamondTrap dt("Victor");
 
-    // Создаём объекты разных классов, включая производный DiamondTrap
-    DiamondTrap dt("Diamond"); // DiamondTrap с именем "Diamond"
-    ClapTrap ct("Clap");       // ClapTrap с именем "Clap"
-    ScavTrap st("Scav");       // ScavTrap с именем "Scav"
+    std::cout << "\n--- Testing Attributes ---\n" << std::endl;
+    dt.attack("Enemy");  // Должен использовать метод ScavTrap
+    dt.whoAmI();  // Должен вывести имя DiamondTrap и ClapTrap
 
-    std::cout << "\n\n------------------------CONSTRUCTIONS------------------------\n\n";
+    std::cout << "\n--- Testing Copy Constructor ---\n" << std::endl;
+    DiamondTrap dt2 = dt;
 
-    // DiamondTrap атакует ClapTrap
-    dt.attack("Clap");         // DiamondTrap вызывает метод атаки
-    ct.takeDamage(dt.getAD()); // ClapTrap получает урон от DiamondTrap
+    std::cout << "\n--- Testing Assignment Operator ---\n" << std::endl;
+    DiamondTrap dt3;
+    dt3 = dt2;
 
-    // Ещё одна атака от DiamondTrap на ClapTrap
-    dt.attack("Clap");
-    ct.takeDamage(dt.getAD());
-
-    // DiamondTrap использует уникальный метод whoAmI
-    dt.whoAmI();
-
-    // ScavTrap атакует DiamondTrap
-    st.attack("Diamond");
-    dt.takeDamage(st.getAD()); // DiamondTrap получает урон от ScavTrap
-
-    // ScavTrap атакует ClapTrap
-    st.attack("Clap");
-    ct.takeDamage(dt.getAD()); // ClapTrap получает урон от ScavTrap
-
-    std::cout << "\n\n------------------------DESTRUCTIONS------------------------\n\n";
-
-    // Здесь объекты разрушаются автоматически (при выходе из области видимости)
+    std::cout << "\n--- Destroying Objects ---\n" << std::endl;
     return 0;
 }
 
-/*Ваш код создаёт объект класса DiamondTrap и другие объекты (`ClapTrapClapTrap, ScavTrap), а затем выполняет 
-их взаимодействие, включая атаки, использование уникальных методов и окончательное уничтожение объектов. Добавим комментарии, чтобы объяснить каждую строку:*/
+
+
+/*В этом задании вам нужно создать DiamondTrap, который будет:
+✔ наследоваться от ScavTrap и FragTrap одновременно
+✔ Имя DiamondTrap должно совпадать с полем name из ClapTrap
+✔ Атрибуты берутся так:
+
+hitPoints → от FragTrap
+energyPoints → от ScavTrap
+attackDamage → от FragTrap
+✔ Метод attack() должен использоваться от ScavTrap
+✔ Добавить новый метод whoAmI(), который выводит name и ClapTrap::name*/

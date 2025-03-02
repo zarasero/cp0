@@ -1,114 +1,72 @@
-
-#include "ScavTrap.hpp"
-/*
-// CANONICAL FORM
-// КОНСТРУКТОР ПО УМОЛЧАНИЮ
-ScavTrap::ScavTrap() // CONSTRUCTOR
-{
-    std::cout << "ScavTrap constructor called" << std::endl; // Выводим сообщение о вызове конструктора
-    return ;
-}
-
-// КОНСТРУКТОР С ПАРАМЕТРОМ ИМЕНИ
-ScavTrap::ScavTrap(std::string name) : ClapTrap(name) // CONSTRUCTOR WITH PARAM NAME
-{
-    std::cout << "ScavTrap constructor called" << std::endl; // Выводим сообщение о вызове конструктора
-    setAD(20); // Устанавливаем атаку на 20
-    setEP(50); // Устанавливаем очки энергии на 50
-    setHP(100); // Устанавливаем здоровье на 100
-    return ;
-}
-
-// ПЕРЕЗАГРУЗКА ОПЕРАТОРА ПРИСВАИВАНИЯ
-ScavTrap& ScavTrap::operator=(const ScavTrap& rhs) // OVERLOAD
-{
-    if (this != &rhs) // Проверка на самоприсваивание
-    {
-        setAD(rhs.getAD()); // Копируем атаку из rhs
-        setEP(rhs.getEP()); // Копируем очки энергии из rhs
-        setHP(rhs.getHP()); // Копируем здоровье из rhs
-        setName(rhs.getName()); // Копируем имя из rhs
-    }
-    return (*this); // Возвращаем ссылку на текущий объект
-}
-
-// ДЕСТРУКТОР
-ScavTrap::~ScavTrap() // DESTRUCTOR
-{
-    std::cout << "ScavTrap destructor called" << std::endl; // Выводим сообщение о вызове деструктора
-    return ;
-}
-
-// КОНСТРУКТОР КОПИРОВАНИЯ
-ScavTrap::ScavTrap(const ScavTrap& src) // COPY CONSTRUCTOR
-{
-    *this = src; // Копируем данные из src в текущий объект
-    return ;
-}
-
-// КАНОНИЧЕСКАЯ ФОРМА ПРОВЕРЕНА (копирование, присваивание, деструктор)
-
-
-// ФУНКЦИЯ "ГОТОВНОСТИ К ОХРАНЕ"
-void ScavTrap::guardGate()
-{
-    std::cout << "ScavTrap " << getName() << " is now in Gate keeper mode." << std::endl; // Выводим информацию о том, что ScavTrap вошел в режим охраны
-    return ;
-}
-*/
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ScavTrap.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zserobia <zserobia@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/27 15:30:56 by zserobia          #+#    #+#             */
+/*   Updated: 2025/02/27 18:05:11 by zserobia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ScavTrap.hpp"
 
-// CANONICAL FORM
-// КОНСТРУКТОР ПО УМОЛЧАНИЮ
-ScavTrap::ScavTrap() // CONSTRUCTOR
-{
-    std::cout << "ScavTrap constructor called" << std::endl; // Выводим сообщение о вызове конструктора
-    return ;
+// Конструкторы
+ScavTrap::ScavTrap() : ClapTrap() {
+    hitPoints = 100;
+    energyPoints = 50;
+    attackDamage = 20;
+     std::cout << "!   HP " << hitPoints << " enp " << energyPoints << " ap " << attackDamage << std::endl;
+     std::cout << "!ScavTrap " << name << " is created!" << std::endl;
 }
 
-// КОНСТРУКТОР С ПАРАМЕТРОМ ИМЕНИ
-ScavTrap::ScavTrap(std::string name) : ClapTrap(name) // CONSTRUCTOR WITH PARAM NAME
-{
-    std::cout << "ScavTrap constructor called" << std::endl; // Выводим сообщение о вызове конструктора
-    setAD(20); // Устанавливаем атаку на 20
-    setEP(50); // Устанавливаем очки энергии на 50
-    setHP(100); // Устанавливаем здоровье на 100
-    return ;
+ScavTrap::ScavTrap(std::string name) : ClapTrap(name) {
+    hitPoints = 100;
+    energyPoints = 50;
+    attackDamage = 20;
+     std::cout << "!   HP " << hitPoints << " enp " << energyPoints << " ap " << attackDamage << std::endl;
+     std::cout << "!ScavTrap " << name << " is created!" << std::endl;
 }
 
-// ПЕРЕЗАГРУЗКА ОПЕРАТОРА ПРИСВАИВАНИЯ
-ScavTrap& ScavTrap::operator=(const ScavTrap& rhs) // OVERLOAD
-{
-    if (this != &rhs) // Проверка на самоприсваивание
-    {
-        setAD(rhs.getAD()); // Копируем атаку из rhs
-        setEP(rhs.getEP()); // Копируем очки энергии из rhs
-        setHP(rhs.getHP()); // Копируем здоровье из rhs
-        setName(rhs.getName()); // Копируем имя из rhs
+// Конструктор копирования
+ScavTrap::ScavTrap(const ScavTrap& src) : ClapTrap(src) {
+    hitPoints = src.hitPoints;
+    energyPoints = src.energyPoints;
+    attackDamage = src.attackDamage;
+    std::cout << "!ScavTrap " << name << " is copied!" << std::endl;
+}
+
+// Оператор присваивания
+ScavTrap& ScavTrap::operator=(const ScavTrap& rhs) {
+    if (this != &rhs) {  // Защита от самоприсваивания
+        //ClapTrap::operator=(rhs);  // Используем оператор присваивания родителя
+        std::cout << "!Operator = is called par" << std::endl;
+        hitPoints = rhs.hitPoints;
+        energyPoints = rhs.energyPoints;
+        attackDamage = rhs.attackDamage;
     }
-    return (*this); // Возвращаем ссылку на текущий объект
+    std::cout << "!ScavTrap " << name << " is assigned!" << std::endl;
+    return *this;
 }
 
-// ДЕСТРУКТОР
-ScavTrap::~ScavTrap() // DESTRUCTOR
-{
-    std::cout << "ScavTrap destructor called" << std::endl; // Выводим сообщение о вызове деструктора
-    return ;
+// Деструктор
+ScavTrap::~ScavTrap() {
+    std::cout << "!ScavTrap " << name << " is destroyed!" << std::endl;
 }
 
-// КОНСТРУКТОР КОПИРОВАНИЯ
-ScavTrap::ScavTrap(const ScavTrap& src) : ClapTrap(src) // COPY CONSTRUCTOR
-{
-    *this = src; // Копируем данные из src в текущий объект
-    return ;
+// Переопределение атаки
+void ScavTrap::attack(const std::string& target) {
+    if (energyPoints > 0 && hitPoints > 0) {
+        energyPoints--;
+        std::cout << "!ScavTrap " << name << " fiercely attacks " << target 
+                  << ", dealing " << attackDamage << " damage!" << std::endl;
+    } else {
+        std::cout << "!ScavTrap " << name << " has no energy to attack!" << std::endl;
+    }
 }
 
-// КАНОНИЧЕСКАЯ ФОРМА ПРОВЕРЕНА (копирование, присваивание, деструктор)
-
-// ФУНКЦИЯ "ГОТОВНОСТИ К ОХРАНЕ"
-void ScavTrap::guardGate()
-{
-    std::cout << "ScavTrap " << getName() << " is now in Gate keeper mode." << std::endl; // Выводим информацию о том, что ScavTrap вошел в режим охраны
-    return ;
+// Новый метод охранника
+void ScavTrap::guardGate() {
+    std::cout << "!ScavTrap " << name << " is now in Gate Keeper mode!" << std::endl;
 }

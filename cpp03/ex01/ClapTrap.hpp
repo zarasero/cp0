@@ -1,74 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ClapTrap.hpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zserobia <zserobia@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/27 13:15:31 by zserobia          #+#    #+#             */
+/*   Updated: 2025/02/27 15:27:36 by zserobia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef CLAPTRAP_HPP
 #define CLAPTRAP_HPP
 
-#include <iomanip>
 #include <iostream>
-#include <iomanip>
 
-class ClapTrap
-{
-    public:
-        // Конструктор по умолчанию
-        ClapTrap(); // CONSTRUCTOR
-        
-        // Конструктор с параметром для имени
-        ClapTrap(std::string name);
-        
-        // Конструктор копирования
-        ClapTrap(const ClapTrap& src); // COPY CONSTRUCTOR
-        
-        // Деструктор
-        ~ClapTrap(); // DESTRUCTOR
-        
-        // Оператор присваивания
-        ClapTrap& operator=(const ClapTrap& rhs);
+class ClapTrap {
+public:
+    // Конструкторы
+    ClapTrap();
+    ClapTrap(std::string name);
+    ClapTrap(const ClapTrap &other);
+    ClapTrap &operator=(const ClapTrap &other);
 
-        // Сеттеры и геттеры для здоровья (HP)
-        int getHP(void) const;    // Геттер для HP
-        void setHP(int hp);       // Сеттер для HP
+    // Деструктор
+    virtual ~ClapTrap();
 
-        // Сеттеры и геттеры для очков энергии (EP)
-        int getEP(void) const;    // Геттер для EP
-        void setEP(int ep);       // Сеттер для EP
-        
-        // Сеттеры и геттеры для атаки (AD)
-        int getAD(void) const;    // Геттер для AD
-        void setAD(int ad);       // Сеттер для AD
+    // Основные функции
+    virtual void attack(const std::string& target);
+    void takeDamage(unsigned int amount);
+    void beRepaired(unsigned int amount);
 
-        // Сеттер и геттер для имени
-        std::string getName(void) const; // Геттер для имени
-        void setName(std::string name);  // Сеттер для имени
-        
-        // Члены класса - функции действия
-        void attack(const std::string& target);  // Функция атаки
-        void takeDamage(unsigned int amount);   // Функция получения урона
-        void beRepaired(unsigned int amount);   // Функция восстановления здоровья
+    // Геттеры
+    std::string getName();  // ✅ Добавили getName()
+    int getHitPoints();
+    int getEnergyPoints();
+    int getAttackDamage();
 
-    protected:
-        std::string _name;  // Имя ClapTrap
-        int _hp;            // Очки здоровья
-        int _ep;            // Очки энергии
-        int _ad;            // Урон атаки
+    // Сеттеры
+    void setHitPoints(int amount);
+    void setEnergyPoints(int amount);
+    void setAttackDamage(int amount);
+
+protected:  // Делаем защищенными, чтобы ScavTrap мог их менять
+    std::string name;
+    int hitPoints;
+    int energyPoints;
+    int attackDamage;
 };
 
-/*Конструкторы и деструктор:
+#endif // CLAPTRAP_HPP
 
-Конструкторы — устанавливают начальные значения для объектов класса ClapTrap. Они могут быть либо по умолчанию, либо с параметром имени.
-Конструктор копирования — используется для создания нового объекта как копию существующего.
-Деструктор — очищает ресурсы объекта перед его удалением.
-Оператор присваивания:
-
-Используется для копирования данных из одного объекта в другой. Важно, чтобы не было самоприсваивания.
-Геттеры и сеттеры:
-
-Позволяют получить или установить значения для здоровья (HP), очков энергии (EP), атаки (AD) и имени.
-Члены класса (функции):
-
-attack: Осуществляет атаку на целевой объект, уменьшая его HP.
-takeDamage: Уменьшает HP на заданное количество.
-beRepaired: Восстанавливает HP, если есть достаточно энергии.
-Protected переменные:
-
-В этом классе переменные name, hp, ep и ad защищены, чтобы их можно было использовать в классах-наследниках, но они не доступны напрямую извне.
-Этот класс представляет собой базовый класс для различных типов персонажей (например, для игры), у которых есть здоровье, энергия, атака и возможность атаковать или восстанавливать здоровье.*/

@@ -1,40 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zserobia <zserobia@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/27 13:15:05 by zserobia          #+#    #+#             */
+/*   Updated: 2025/02/27 14:48:48 by zserobia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ClapTrap.hpp"
 
-int main(int argc, char **av)
-{
-    (void)argc, (void)av;  // Игнорирование параметров командной строки (argc и av) 
+int main() {
+    ClapTrap bot1("BotOne");
+    std::cout << "\n--------------\n" << std::endl;
+    ClapTrap bot2("BotTwo");
+    std::cout << "\n--------------\n" << std::endl;
+    std::cout << "\n--- Start! ---\n" << std::endl;
 
-    ClapTrap t("Tony");  // Создание объекта t класса ClapTrap с именем "Tony"
-    ClapTrap d("David");  // Создание объекта d класса ClapTrap с именем "David"
-    
-    // Вывод текущего количества HP объекта t (Тони)
-    std::cout << "Tony's HP : " << t.getHP() << std::endl << std::endl;
-    
-    // Вывод текущего количества HP объекта d (Дэвид)
-    std::cout << "David's HP : " << d.getHP() << std::endl << std::endl;
+    // BotOne атакует BotTwo
+    bot1.attack(bot2.getName());
+    std::cout << "\n--------------\n" << std::endl;
+    bot2.takeDamage(bot1.getAttackDamage());
+    std::cout << "\n--------------\n" << std::endl;
+    // BotTwo атакует BotOne
+    bot2.attack(bot1.getName());
+    std::cout << "\n--------------\n" << std::endl;
+    bot1.takeDamage(bot2.getAttackDamage());
+    std::cout << "\n--------------\n" << std::endl;
+    // BotOne пытается восстановиться
+    bot1.beRepaired(5);
+    std::cout << "\n--------------\n" << std::endl;
+    // BotTwo получает критический урон
+    bot2.takeDamage(15);
+    std::cout << "\n--------------\n" << std::endl;
+    // BotTwo пытается атаковать после смерти
+    bot2.attack(bot1.getName());
+    std::cout << "\n--------------\n" << std::endl;
 
-    t.attack("David");  // Тони атакует Дэвида (вызов метода атаки для объекта t)
-    
-    d.takeDamage(t.getAD());  // Дэвид получает урон, равный атакующим повреждениям Тони (используется getAD() для получения урона)
-    
-    t.attack("David");  // Тони снова атакует Дэвида
-    
-    d.takeDamage(t.getAD());  // Дэвид снова получает урон от атаки Тони
-    
-    d.attack("Tony");  // Дэвид атакует Тони
-    
-    t.takeDamage(d.getAD());  // Тони получает урон от атаки Дэвида
-    
-    d.beRepaired(1);  // Дэвид восстанавливает 1 HP с помощью метода beRepaired
-    t.beRepaired(1);  // Тони восстанавливает 1 HP с помощью метода beRepaired
-    
-    return (0);  // Возвращение 0 в конце программы, что означает успешное выполнение
+    // BotOne атакует, пока не кончится энергия
+    for (int i = 0; i < 10; i++) {
+        bot1.attack("DummyTarget");
+    }
+    std::cout << "\n--- Finish! ---\n" << std::endl;
+    // BotOne пытается атаковать без энергии
+    bot1.attack("FinalTarget");
+    std::cout << "\n--- Finish! ---\n" << std::endl;
+    return 0;
 }
 
-/*Игнорирование аргументов командной строки: (void)argc, (void)av; используется для того, чтобы избавиться от предупреждений компилятора о неиспользуемых параметрах.
-Создание объектов: Создаются два объекта класса ClapTrap, каждый из которых представляет собой персонажа с именем "Tony" и "David".
-Вывод HP: Используется метод getHP() для вывода текущего здоровья каждого персонажа.
-Атаки и урон: Методы attack() и takeDamage() используются для того, чтобы персонажи атаковали друг друга и получали урон.
-Восстановление здоровья: Метод beRepaired() используется для восстановления здоровья персонажей на 1 единицу.
-Таким образом, этот код симулирует небольшую битву между двумя персонажами, где они атакуют друг друга, получают урон и восстанавливают немного здоровья.*/
+

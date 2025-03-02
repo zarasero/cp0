@@ -1,84 +1,70 @@
-
 #include "DiamondTrap.hpp"
-// КОНСТРУКТОР ПО УМОЛЧАНИЮ
-DiamondTrap::DiamondTrap() // Инициализируем объект класса DiamondTrap
-{
-    std::cout << "DiamondTrap constructor called" << std::endl; // Выводим сообщение о вызове конструктора
-    return; // Завершаем конструктор
+#include <iostream>
+
+// Конструктор по умолчанию
+DiamondTrap::DiamondTrap()
+    : ClapTrap("Default_clap_name"), ScavTrap(), FragTrap(), name("Default") {
+    this->hitPoints = FragTrap::hitPoints;  // HP от FragTrap
+    this->energyPoints = ScavTrap::energyPoints;  // EP от ScavTrap
+    this->attackDamage = FragTrap::attackDamage;  // AP от FragTrap
+
+    std::cout << "💎 Diamond " << this->name << " is created!" << std::endl;
+    std::cout << "💎 Diamond HP: " << hitPoints 
+    << " | ENP: " << energyPoints 
+    << " | AP: " << attackDamage << std::endl;
 }
 
-// КОНСТРУКТОР С ПАРАМЕТРОМ ИМЕНИ
-DiamondTrap::DiamondTrap(std::string name) : ClapTrap() // Конструктор с параметром для имени, передаем его в конструктор родителя
-{
-    std::cout << "DiamondTrap constructor called" << std::endl; // Выводим сообщение о вызове конструктора
+// Конструктор с параметром
+DiamondTrap::DiamondTrap(std::string name)
+    : ClapTrap(name + "_clap_name"), ScavTrap(name), FragTrap(name), name(name) {
+    
+    this->hitPoints = FragTrap::hitPoints;
+    this->energyPoints = ScavTrap::energyPoints;
+    this->attackDamage = FragTrap::attackDamage;
 
-    // Инициализируем атрибуты конкретно для DiamondTrap, а также для базовых классов
-    this->_hp = FragTrap::_hp = 100; // Устанавливаем здоровье для DiamondTrap и FragTrap
-    this->_ep = ScavTrap::_ep = 50;  // Устанавливаем энергию для DiamondTrap и ScavTrap
-    this->_ad = FragTrap::_ad = 20;  // Устанавливаем урон для DiamondTrap и FragTrap
-    this->_name = name;              // Устанавливаем имя для DiamondTrap
-    ClapTrap::_name = _name + "_clap_name"; // Устанавливаем имя для базового класса ClapTrap (с добавлением суффикса "_clap_name")
-    return; // Завершаем конструктор
+    std::cout << "💎 DiamondTrap " << this->name
+              << " is created with ClapTrap name " << ClapTrap::name << "!" 
+              << std::endl;
+              std::cout << "💎 DiamondTrap HP: " << hitPoints 
+              << " | ENP: " << energyPoints 
+              << " | AP: " << attackDamage << std::endl;
 }
 
-// ОПЕРАТОР ПРИСВАИВАНИЯ
-DiamondTrap& DiamondTrap::operator=(const DiamondTrap& rhs) // Оператор присваивания
-{
-    if (this != &rhs) // Проверяем на самоприсваивание
-    {
-        // Копируем данные из объекта rhs в текущий объект
-        setAD(rhs.getAD());
-        setEP(rhs.getEP());
-        setHP(rhs.getHP());
-        setName(rhs.getName());
+// Конструктор копирования
+DiamondTrap::DiamondTrap(const DiamondTrap& other) 
+    : ClapTrap(other), ScavTrap(other), FragTrap(other), name(other.name) {
+    this->hitPoints = other.hitPoints;
+    this->energyPoints = other.energyPoints;
+    this->attackDamage = other.attackDamage;
+
+    std::cout << "💎 DiamondTrap " << this->name << " is copied!" << std::endl;
+    std::cout << "💎 DiamondTrap HP: " << hitPoints 
+    << " | ENP: " << energyPoints 
+    << " | AP: " << attackDamage << std::endl;
+}
+
+// Оператор присваивания
+DiamondTrap& DiamondTrap::operator=(const DiamondTrap& other) {
+    std::cout << "💎 DiamondTrap Operator = is called" << std::endl;
+    if (this != &other) {
+        //ClapTrap::operator=(other);
+        this->name = other.name;
+        this->hitPoints = other.hitPoints;
+        this->energyPoints = other.energyPoints;
+        this->attackDamage = other.attackDamage;
     }
-    return (*this); // Возвращаем ссылку на текущий объект, чтобы поддержать цепочку присваиваний
+    std::cout << "💎 DiamondTrap " << this->name << " is assigned!" << std::endl;
+    return *this;
 }
 
-// КОНСТРУКТОР КОПИРОВАНИЯ
-DiamondTrap::DiamondTrap(const DiamondTrap& src) 
-    : ClapTrap(src), ScavTrap(src), FragTrap(src)
-{
-    *this = src; // Используем оператор присваивания
-    std::cout << "DiamondTrap copy constructor called" << std::endl;
+// Деструктор
+DiamondTrap::~DiamondTrap() {
+    std::cout << "💎 DiamondTrap " << this->name << " is destroyed!" << std::endl;
 }
 
-
-// ДЕСТРУКТОР
-DiamondTrap::~DiamondTrap() // Деструктор, вызываемый при уничтожении объекта
-{
-    std::cout << "DiamondTrap destructor called" << std::endl; // Выводим сообщение о вызове деструктора
-    return; // Завершаем деструктор
+// Новый метод
+void DiamondTrap::whoAmI() {
+    std::cout << "💎 I am " << this->name
+              << " and my ClapTrap name is " << ClapTrap::name << "!" 
+              << std::endl;
 }
-
-// МЕТОД АТАКИ
-void DiamondTrap::attack(const std::string& target) // Метод атаки, который принимает цель атаки
-{
-    ScavTrap::attack(target); // Вызываем метод атаки из класса ScavTrap
-    return; // Завершаем метод
-}
-
-// МЕТОД WHO AM I
-void DiamondTrap::whoAmI() // Метод, выводящий информацию о именах объектов
-{
-    std::cout << "Name of the ClapTrap : " << ClapTrap::_name << std::endl; // Выводим имя из базового класса ClapTrap
-    std::cout << "Name of the DiamondTrap : " << this->_name << std::endl; // Выводим имя текущего объекта DiamondTrap
-    return; // Завершаем метод
-}
-
-/*
-Комментарии:
-Конструктор по умолчанию (DiamondTrap()): этот конструктор ничего не инициализирует, кроме вывода сообщения. Используется для создания объектов без передачи имени.
-Конструктор с параметром имени (DiamondTrap(std::string name)): В этом конструкторе:
-Инициализируются атрибуты для DiamondTrap, а также для базовых классов FragTrap и ScavTrap.
-Присваиваем уникальное имя объекту DiamondTrap и имя для базового класса ClapTrap с добавлением суффикса «_clap_name».
-Оператор присваивания (operator=): используется для присвоения одного объекта другому. Проверяется самоприсвоение, а затем копируются все атрибуты объекта.
-Конструктор копирования (DiamondTrap(const DiamondTrap& src)): копирует значения всех атрибутов из объекта src.
-Деструктор (~DiamondTrap()): Выводит сообщение при уничтожении объекта.
-Метод атаки (attack(const std::string& target)): Использует метод атаки из базового класса ScavTrap.
-Метод whoAmI(): Выводит информацию о двух именах:
-Имя, сохранённое в базовом классе ClapTrap (с суффиксом «_clap_name»).
-Имя, которое присваивается непосредственно объекту DiamondTrap.
-Дополнительные замечания:
-DiamondTrap использует атрибуты как из FragTrap, так и из ScavTrap. Важно, что эти атрибуты инкапсулированы в соответствующих родительских классах.
-Конструктор и методы корректно устанавливают и выводят информацию о состоянии объектов, используя комбинацию*/

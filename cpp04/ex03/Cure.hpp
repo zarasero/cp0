@@ -1,3 +1,4 @@
+// Cure.hpp (Специфический класс Cure)
 #ifndef CURE_HPP
 #define CURE_HPP
 
@@ -5,10 +6,13 @@
 
 class Cure : public AMateria {
 public:
-    Cure();
-    virtual ~Cure();
-    virtual AMateria* clone() const; // Возвращает новый экземпляр Cure
-    virtual void use(ICharacter& target); // Выводит специфическое сообщение для Cure
+    Cure();  // Конструктор по умолчанию
+    Cure(Cure const & other); // Конструктор копирования
+    Cure& operator=(Cure const & other); // Оператор присваивания
+    virtual ~Cure(); // Виртуальный деструктор
+
+    virtual AMateria* clone() const; // Метод клонирования, возвращающий новый объект Cure
+    virtual void use(ICharacter& target); // Переопределенный метод использования
 };
 
-#endif
+#endif // CURE_HPP
